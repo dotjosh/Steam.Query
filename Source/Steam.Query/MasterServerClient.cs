@@ -25,7 +25,9 @@ namespace Steam.Query
             _steamSteamPort = steamPort;
         }
 
-        public async Task<IEnumerable<string>> GetServers(params MasterServerFilter[] masterServerFilters)
+        public async Task<IEnumerable<string>> GetServers(
+            MasterServerRegion region = MasterServerRegion.All,
+            params MasterServerFilter[] masterServerFilters)
         {
             var servers = new List<string>();
 
@@ -36,7 +38,7 @@ namespace Steam.Query
                 string thisServer = null;
                 while (thisServer != FIRST_AND_LAST_SERVER)
                 {
-                    var requestPacket = CreateRequestPacket(thisServer ?? FIRST_AND_LAST_SERVER, masterServerFilters);
+                    var requestPacket = CreateRequestPacket(thisServer ?? FIRST_AND_LAST_SERVER, region, masterServerFilters);
                     await client.SendAsync(requestPacket, requestPacket.Length);
                     var response = await client.ReceiveAsync();
                     var responseData = response.Buffer.ToList();
@@ -57,9 +59,9 @@ namespace Steam.Query
             return servers;
         }
 
-        private static byte[] CreateRequestPacket(string ipAddress, IEnumerable<MasterServerFilter> filters)
+        private static byte[] CreateRequestPacket(string ipAddress, MasterServerRegion region, IEnumerable<MasterServerFilter> filters)
         {
-            var buffer = new List<byte> { 0x31, 0xFF };
+            var buffer = new List<byte> { 0x31, (byte)region };
             buffer.AddRange(System.Text.Encoding.ASCII.GetBytes(ipAddress));
             buffer.Add(0x00);
             var filtersString = string.Join("", filters.Select(x => x.Key + "\\" + x.Value));

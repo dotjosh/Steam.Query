@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="MasterServerClient.cs" />
     <Compile Include="MasterServerFilter.cs" />
+    <Compile Include="MasterServerRegion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
