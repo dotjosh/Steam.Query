@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Steam.Query")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Library for querying the Steam Master Server list")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Dotjosh Studios, Inc.")]
 [assembly: AssemblyProduct("Steam.Query")]
