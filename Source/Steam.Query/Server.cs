@@ -10,18 +10,18 @@ namespace Steam.Query
 {
     public class Server
     {
-        private readonly IPEndPoint _server;
-
-        public Server(IPEndPoint server)
+        public Server(IPEndPoint endPoint)
         {
-            _server = server;
+            EndPoint = endPoint;
         }
+
+        public IPEndPoint EndPoint { get; private set; }
 
         public async Task<Dictionary<string, string>> GetServerRules()
         {
             using (var client = new UdpClient(new IPEndPoint(IPAddress.Any, 0)))
             {
-                client.Connect(_server);
+                client.Connect(EndPoint);
                 var requestPacket = new List<byte>();
                 requestPacket.AddRange(new Byte[] {0xFF, 0xFF, 0xFF, 0xFF, 0x56});
                 requestPacket.AddRange(BitConverter.GetBytes(-1));
