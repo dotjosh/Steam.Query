@@ -7,29 +7,29 @@ using System.Threading.Tasks;
 
 namespace Steam.Query
 {
-    public class MasterServerClient
+    public class MasterServer
     {
         private const string FIRST_AND_LAST_SERVER = "0.0.0.0:0";
         private const int HEADER_BYTES_LENGTH = 6;
         private readonly IPAddress _steamSteamIpAddress;
         private readonly int _steamSteamPort;
 
-        public MasterServerClient()
+        public MasterServer()
             : this("hl2master.steampowered.com", 27011)
         {
         }
 
-        public MasterServerClient(string hostname, int steamPort)
+        public MasterServer(string hostname, int steamPort)
         {
             _steamSteamIpAddress = Dns.GetHostEntry(hostname).AddressList[0];
             _steamSteamPort = steamPort;
         }
 
-        public async Task<IEnumerable<string>> GetServers(
+        public async Task<IEnumerable<Server>> GetServers(
             MasterServerRegion region = MasterServerRegion.All,
             params MasterServerFilter[] masterServerFilters)
         {
-            var servers = new List<string>();
+            var servers = new List<Server>();
 
             using (var client = new UdpClient(new IPEndPoint(IPAddress.Any, 0)))
             {
@@ -45,11 +45,11 @@ namespace Steam.Query
                     for (int i = HEADER_BYTES_LENGTH; i < responseData.Count; i++)
                     {
                         var ip = string.Join(".", responseData.GetRange(i, 4).ToArray());
-                        var port = Convert.ToString(responseData[i + 4] << 8 | responseData[i + 5]);
+                        int port = responseData[i + 4] << 8 | responseData[i + 5];
                         thisServer = string.Format("{0}:{1}", ip, port);
                         if (thisServer != FIRST_AND_LAST_SERVER)
                         {
-                            servers.Add(thisServer);
+                            servers.Add(new Server(new IPEndPoint(IPAddress.Parse(ip), port)));
                         }
                         i += 5;
                     }

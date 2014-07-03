@@ -10,8 +10,8 @@ namespace Steam.Query.Tests
         [Test]
         public void BasicQuery()
         {
-            var client = new MasterServerClient();
-            var t = client.GetServers(MasterServerRegion.All, MasterServerFilter.Gamedir("dayz"));
+            var client = new MasterServer();
+            var t = client.GetServers(MasterServerRegion.All, MasterServerFilter.Gamedir("arma2arrowpc"));
             t.Wait(TimeSpan.FromSeconds(10));
 
             Assert.IsTrue(t.Result.Any(), "No servers were returned");

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="MasterServerClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
