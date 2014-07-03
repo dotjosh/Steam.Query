@@ -21,9 +21,11 @@ namespace Steam.Query.Tests
         }
 
         [Test]
+        [Ignore]
         public void RuleQuery()
         {
             var t = _server.GetServerRules();
+
             t.Wait(TimeSpan.FromSeconds(10));
             Assert.That(t.Result.Keys.Count, Is.GreaterThan(2));
         }
