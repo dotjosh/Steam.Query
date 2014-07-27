@@ -43,7 +43,9 @@
     <Compile Include="MasterServerFilter.cs" />
     <Compile Include="MasterServerRegion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResponseParser.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="ServerInfoResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Steam.Query.nuspec" />
