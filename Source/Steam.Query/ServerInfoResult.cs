@@ -15,6 +15,7 @@
         public string ServerType { get; set; }
         public string Environment { get; set; }
         public byte Visibility { get; set; }
+        public string Version { get; set; }
 
         public static ServerInfoResult Parse(byte[] data)
         {
@@ -34,6 +35,7 @@
             result.Environment = parser.GetStringOfByte();
             result.Visibility = parser.GetByte();
             result.VAC = parser.GetByte();
+            result.Version = parser.GetStringToTermination();
             return result;
         }
     }
