@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Steam.Query
 {
-    public class Server
+    public partial class Server
     {
         public Server(IPEndPoint endPoint)
         {
@@ -17,7 +17,8 @@ namespace Steam.Query
 
         public IPEndPoint EndPoint { get; private set; }
 
-        public async Task<Dictionary<string, string>> GetServerRules()
+#if NET45
+        public async Task<ServerRulesResult> GetServerRules()
         {
             using (var client = new UdpClient(new IPEndPoint(IPAddress.Any, 0)))
             {
@@ -33,17 +34,35 @@ namespace Steam.Query
                 requestPacket.AddRange(responseData.GetRange(5, 4));
                 await client.SendAsync(requestPacket.ToArray(), requestPacket.ToArray().Length);
                 response = await client.ReceiveAsync();
-                var parser = new ResponseParser(response.Buffer);
-                parser.CurrentPosition += 7;
-                var items = new Dictionary<string, string>();
-                while (parser.BytesLeft)
-                {
-                    items.Add(parser.GetStringToTermination(), parser.GetStringToTermination());
-                }
-                return items;
+                return ServerRulesResult.Parse(response.Buffer);
+            }
+        }
+#endif
+
+        public ServerRulesResult GetServerRulesSync(GetServerInfoSettings settings)
+        {
+            var localEndpoint = new IPEndPoint(IPAddress.Any, 0);
+            using (var client = new UdpClient(localEndpoint))
+            {
+                client.Client.ReceiveTimeout = settings.ReceiveTimeout;
+                client.Client.SendTimeout = settings.SendTimeout;
+
+                client.Connect(EndPoint);
+                var requestPacket = new List<byte>();
+                requestPacket.AddRange(new Byte[] {0xFF, 0xFF, 0xFF, 0xFF, 0x56});
+                requestPacket.AddRange(BitConverter.GetBytes(-1));
+                client.Send(requestPacket.ToArray(), requestPacket.ToArray().Length);
+                byte[] responseData = client.Receive(ref localEndpoint);
+                requestPacket.Clear();
+                requestPacket.AddRange(new Byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0x56 });
+                requestPacket.AddRange(responseData.Skip(6).Take(4));
+                client.Send(requestPacket.ToArray(), requestPacket.ToArray().Length);
+                responseData = client.Receive(ref localEndpoint);
+                return ServerRulesResult.Parse(responseData);
             }
         }
 
+#if NET45
         public async Task<ServerInfoResult> GetServerInfo()
         {
             using (var client = new UdpClient(new IPEndPoint(IPAddress.Any, 0)))
@@ -56,24 +75,36 @@ namespace Steam.Query
                 requestPacket.Add(0x00);
                 await client.SendAsync(requestPacket.ToArray(), requestPacket.ToArray().Length);
                 UdpReceiveResult response = await client.ReceiveAsync();
-                var parser = new ResponseParser(response.Buffer);
-                parser.CurrentPosition += 5;//Header
-                var result = new ServerInfoResult();
-                result.Protocol = parser.GetByte();
-                result.Name = parser.GetStringToTermination();
-                result.Map = parser.GetStringToTermination();
-                result.Folder = parser.GetStringToTermination();
-                result.Game = parser.GetStringToTermination();
-                result.ID = parser.GetShort();
-                result.Players = parser.GetByte();
-                result.MaxPlayers = parser.GetByte();
-                result.Bots = parser.GetByte();
-                result.ServerType = parser.GetStringOfByte();
-                result.Environment = parser.GetStringOfByte();
-                result.Visibility = parser.GetByte();
-                result.VAC = parser.GetByte();
-                return result;
+                return ServerInfoResult.Parse(response.Buffer);
             }
+        }
+#endif
+
+        public ServerInfoResult GetServerInfoSync(GetServerInfoSettings settings)
+        {
+            var localEndPoint = new IPEndPoint(IPAddress.Any, 0);
+            using (var client = new UdpClient(localEndPoint))
+            {
+                client.Client.ReceiveTimeout = settings.ReceiveTimeout;
+                client.Client.SendTimeout = settings.SendTimeout;
+
+                client.Connect(EndPoint);
+                var requestPacket = new List<byte>();
+                requestPacket.AddRange(new Byte[] { 0xFF, 0xFF, 0xFF, 0xFF });
+                requestPacket.Add(0x54);
+                requestPacket.AddRange(Encoding.ASCII.GetBytes("Source Engine Query"));
+                requestPacket.Add(0x00);
+                var requestData = requestPacket.ToArray();
+                client.Send(requestData, requestData.Length);
+                byte[] data = client.Receive(ref localEndPoint);
+                return ServerInfoResult.Parse(data);
+            }
+        }
+
+        public class GetServerInfoSettings
+        {
+            public int SendTimeout = 2000;
+            public int ReceiveTimeout = 2000;
         }
     }
 }

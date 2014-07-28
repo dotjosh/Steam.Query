@@ -15,5 +15,26 @@
         public string ServerType { get; set; }
         public string Environment { get; set; }
         public byte Visibility { get; set; }
+
+        public static ServerInfoResult Parse(byte[] data)
+        {
+            var parser = new ResponseParser(data);
+            parser.CurrentPosition += 5; //Header
+            var result = new ServerInfoResult();
+            result.Protocol = parser.GetByte();
+            result.Name = parser.GetStringToTermination();
+            result.Map = parser.GetStringToTermination();
+            result.Folder = parser.GetStringToTermination();
+            result.Game = parser.GetStringToTermination();
+            result.ID = parser.GetShort();
+            result.Players = parser.GetByte();
+            result.MaxPlayers = parser.GetByte();
+            result.Bots = parser.GetByte();
+            result.ServerType = parser.GetStringOfByte();
+            result.Environment = parser.GetStringOfByte();
+            result.Visibility = parser.GetByte();
+            result.VAC = parser.GetByte();
+            return result;
+        }
     }
 }

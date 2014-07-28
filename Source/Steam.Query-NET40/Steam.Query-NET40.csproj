@@ -4,27 +4,27 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F839D43E-C738-4C98-8A58-15613F9A1605}</ProjectGuid>
+    <ProjectGuid>{603530F8-9F44-42E2-85E1-284D1426418B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Steam.Query</RootNamespace>
-    <AssemblyName>Steam.Query</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <RootNamespace>Steam.Query_NET40</RootNamespace>
+    <AssemblyName>Steam.Query-NET40</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <OutputPath>..\Steam.Query\bin\Debug\NET40\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\NET45\</OutputPath>
+    <OutputPath>..\Steam.Query\bin\Release\NET40\</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -39,17 +39,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MasterServer.cs" />
-    <Compile Include="MasterServerFilter.cs" />
-    <Compile Include="MasterServerRegion.cs" />
+    <Compile Include="..\Steam.Query\MasterServer.cs">
+      <Link>MasterServer.cs</Link>
+    </Compile>
+    <Compile Include="..\Steam.Query\MasterServerFilter.cs">
+      <Link>MasterServerFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Steam.Query\MasterServerRegion.cs">
+      <Link>MasterServerRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Steam.Query\ResponseParser.cs">
+      <Link>ResponseParser.cs</Link>
+    </Compile>
+    <Compile Include="..\Steam.Query\Server.cs">
+      <Link>Server.cs</Link>
+    </Compile>
+    <Compile Include="..\Steam.Query\ServerInfoResult.cs">
+      <Link>ServerInfoResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Steam.Query\ServerRulesResult.cs">
+      <Link>ServerRulesResult.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResponseParser.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="ServerInfoResult.cs" />
-    <Compile Include="ServerRulesResult.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Steam.Query.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

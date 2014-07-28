@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DB8121
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steam.Query-NET40", "Steam.Query-NET40\Steam.Query-NET40.csproj", "{603530F8-9F44-42E2-85E1-284D1426418B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{711D9D05-F4E2-49E7-9A41-34AE05C9E7C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{711D9D05-F4E2-49E7-9A41-34AE05C9E7C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{711D9D05-F4E2-49E7-9A41-34AE05C9E7C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{603530F8-9F44-42E2-85E1-284D1426418B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{603530F8-9F44-42E2-85E1-284D1426418B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{603530F8-9F44-42E2-85E1-284D1426418B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{603530F8-9F44-42E2-85E1-284D1426418B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

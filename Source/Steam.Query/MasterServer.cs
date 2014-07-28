@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Steam.Query
 {
-    public class MasterServer
+    public partial class MasterServer
     {
         private const string FIRST_AND_LAST_SERVER = "0.0.0.0:0";
         private const int HEADER_BYTES_LENGTH = 6;
@@ -25,6 +25,7 @@ namespace Steam.Query
             _steamSteamPort = steamPort;
         }
 
+#if NET45
         public async Task<IEnumerable<Server>> GetServers(
             MasterServerRegion region = MasterServerRegion.All,
             params MasterServerFilter[] masterServerFilters)
@@ -68,5 +69,6 @@ namespace Steam.Query
             buffer.AddRange(System.Text.Encoding.ASCII.GetBytes(filtersString));
             return buffer.ToArray();
         }
+#endif
     }
 }
