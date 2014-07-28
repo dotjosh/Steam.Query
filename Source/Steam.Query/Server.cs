@@ -55,7 +55,7 @@ namespace Steam.Query
                 byte[] responseData = client.Receive(ref localEndpoint);
                 requestPacket.Clear();
                 requestPacket.AddRange(new Byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0x56 });
-                requestPacket.AddRange(responseData.Skip(6).Take(4));
+                requestPacket.AddRange(responseData.Skip(5).Take(4));
                 client.Send(requestPacket.ToArray(), requestPacket.ToArray().Length);
                 responseData = client.Receive(ref localEndpoint);
                 return ServerRulesResult.Parse(responseData);
