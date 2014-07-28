@@ -7,8 +7,8 @@
     <ProjectGuid>{603530F8-9F44-42E2-85E1-284D1426418B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Steam.Query_NET40</RootNamespace>
-    <AssemblyName>Steam.Query-NET40</AssemblyName>
+    <RootNamespace>Steam.Query</RootNamespace>
+    <AssemblyName>Steam.Query</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
