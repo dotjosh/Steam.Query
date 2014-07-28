@@ -1,4 +1,6 @@
-﻿namespace Steam.Query
+﻿using System;
+
+namespace Steam.Query
 {
     public class ServerInfoResult
     {
@@ -16,6 +18,7 @@
         public string Environment { get; set; }
         public byte Visibility { get; set; }
         public string Version { get; set; }
+        public int Port { get; set; }
 
         public static ServerInfoResult Parse(byte[] data)
         {
@@ -36,6 +39,15 @@
             result.Visibility = parser.GetByte();
             result.VAC = parser.GetByte();
             result.Version = parser.GetStringToTermination();
+
+            //get EDF
+            uint edf = parser.GetByte();
+
+            if ((edf & 0x80) != 0) //has port number
+            {
+                result.Port = parser.GetShort();
+            }
+
             return result;
         }
     }
