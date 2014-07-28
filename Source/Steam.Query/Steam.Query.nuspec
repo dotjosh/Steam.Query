@@ -8,4 +8,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
   </metadata>
+  <files>
+    <file src="bin\$configuration$\NET40\Steam.Query.dll" target="lib\net40\" />
+    <file src="bin\$configuration$\NET451\Steam.Query.dll" target="lib\net451\" />
+  </files>
 </package>
